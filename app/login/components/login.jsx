@@ -3,13 +3,27 @@
 import { LuLogIn } from "react-icons/lu";
 import { FaAngleLeft } from "react-icons/fa6";
 import Link from "next/link";
+import API,{setToken} from "../../../src/api";
+import { useState } from "react";
 
 export default function Login() {
+
+    const [data,setData] = useState({});
+    const submitHandeler = async (e) => {
+        e.preventDefault();
+        console.log(data)
+        await API.post("/account/login/",data).then((response) => {
+            setToken(response.data["access_token"],response.data["refresh_token"]);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     return (
-        <div className="bg-zinc-900 p-6 h-screen">
+        <div className="bg-zinc-900 p-6">
             <h1 className="text-white text-center text-2xl font-semibold my-3">ورود به حساب کاربری</h1>
             <div className="grid grid-cols-2">
-                <form className="col-span-1 p-3">
+                <form className="col-span-1 p-3" onSubmit={submitHandeler}>
                     <div className="my-2">
                         <p className="text-gray-300 text-right my-1">نام کاربری / آدرس ایمیل</p>
                         <input
@@ -17,6 +31,11 @@ export default function Login() {
                             className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                             focus:bg-gray-200 focus:text-black text-white transition"
                             type="text"
+                            required
+                            onChange={
+                                (e) => e.target.value.includes("@") ? 
+                                setData({...data , email : e.target.value}) :
+                                setData({...data , username : e.target.value})  }
                         />
                     </div>
                     <div className="my-2">
@@ -26,13 +45,17 @@ export default function Login() {
                             className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                             focus:bg-gray-200 focus:text-black text-white transition"
                             type="password"
+                            required
+                            onChange={(e) => setData({...data,password : e.target.value})}
                         />
                     </div>
                     <div className="flex justify-start gap-2 my-2">
                         <input type="checkbox" />
                         <p className="text-gray-300 text-right">مرا به خاطر بسپار</p>
                     </div>
-                    <button className="w-full p-1 py-3 text-lg text-zinc-900 bg-amber-300 rounded-md font-semibold"> ورود به حساب</button>
+                    <button 
+                    type="submit"
+                    className="w-full p-1 py-3 text-lg text-zinc-900 bg-amber-300 rounded-md font-semibold"> ورود به حساب</button>
                     <div className="my-2 flex items-center justify-start gap-2">
                         <p className="text-gray-300">ثبت نام نکرده اید ؟</p>
                         <Link className="text-gray-500" href="/register">عضویت</Link>
