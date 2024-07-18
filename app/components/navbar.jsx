@@ -3,17 +3,19 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Logo from "../../public/logo.png";
 import Image from "next/image";
 import { GoSearch } from "react-icons/go";
+import Link from "next/link";
 
 export default function Nabvbar() {
     return (
         <div className="bg-zinc-900 grid grid-cols-9 p-3 px-8">
             <div className="col-span-5 grid grid-cols-9 gap-2">
                 <RxHamburgerMenu color="white" size={"2.8rem"} className="col-span-1" />
-                <Image
-                    src={Logo}
-                    alt="logo"
-                    className="col-span-2"
-                />
+                <Link className="col-span-2" href={"/"} >
+                    <Image
+                        src={Logo}
+                        alt="logo"
+                    />
+                </Link>
                 <div className="col-span-5 bg-zinc-800 grid-cols-8 grid rounded-3xl">
                     <input
                         placeholder="جستجو کنید"
@@ -28,7 +30,9 @@ export default function Nabvbar() {
             <div className="col-span-4 flex items-center justify-end">
                 <button className="flex items-center justify-between gap-3 bg-white text-lg p-2 rounded-3xl">
                     <FaRegUser color="black" size={"1.3rem"} />
-                    <p className="text-zinc-900 hover:text-gray-300"> ورود / ثبت نام</p>
+                    <Link href={"/login"}>
+                        <p className="text-zinc-900 hover:text-gray-300"> ورود / ثبت نام</p>
+                    </Link>
                 </button>
             </div>
         </div>
