@@ -41,7 +41,7 @@ export default function Nabvbar() {
                         </Link>
                     </div>
                 }
-                <div className={`col-span-${user.is_login ? "3" : "5"} bg-zinc-800 grid-cols-8 grid rounded-3xl`}>
+                <div className={`${user.is_login ? "col-span-3" : "col-span-5"} bg-zinc-800 grid-cols-8 grid rounded-3xl`}>
                     <input
                         placeholder="جستجو کنید"
                         className="col-span-7 w-full bg-inherit outline-none rounded-r-3xl

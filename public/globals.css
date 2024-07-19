@@ -11,3 +11,12 @@
     direction: rtl;
     font-family: "yekan";
 }
+
+/* moods */
+.moods{
+    width: 100vw !important;
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow-x: scroll;
+    grid-auto-flow: column;
+}
