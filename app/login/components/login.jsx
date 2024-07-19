@@ -5,15 +5,28 @@ import { FaAngleLeft } from "react-icons/fa6";
 import Link from "next/link";
 import API,{setToken} from "../../../src/api";
 import { useState } from "react";
+import {useRouter} from "next/navigation";
+import { toast } from "react-toastify";
+import { changeUser } from "../../../src/reducers/user";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
 
     const [data,setData] = useState({});
+    const router = useRouter();
+    const dispatch = useDispatch();
     const submitHandeler = async (e) => {
         e.preventDefault();
         console.log(data)
         await API.post("/account/login/",data).then((response) => {
             setToken(response.data["access_token"],response.data["refresh_token"]);
+            dispatch(changeUser({
+                email : response.data["email"],
+                username : response.data["username"],
+                is_login : true 
+            }))
+            router.push('/');
+            toast.success("شما با موفقیت وارد شدید")
         }).catch((error) => {
             console.log(error);
         })
