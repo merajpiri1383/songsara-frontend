@@ -20,10 +20,13 @@ export default function Login() {
         console.log(data)
         await API.post("/account/login/",data).then((response) => {
             setToken(response.data["access_token"],response.data["refresh_token"]);
+            console.log(response.data);
             dispatch(changeUser({
-                email : response.data["email"],
-                username : response.data["username"],
-                is_login : true 
+                email : response.data.user["email"],
+                username : response.data.user["username"],
+                is_login : true ,
+                is_staff : response.data.user["is_staff"],
+                is_active : response.data.user["is_active"]
             }))
             router.push('/');
             toast.success("شما با موفقیت وارد شدید")
