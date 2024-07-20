@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Suspense } from "react";
 import Loading from "./components/loading";
+import Auth from "./components/auth";
 const Nabvbar = lazy(() => import("./components/navbar"));
 const StoreProvider = lazy(() => import('./storeProvider'));
 
@@ -17,12 +18,14 @@ export default function RootLayout({ children }) {
       <body className="bg-zinc-900">
         <StoreProvider>
           <Suspense fallback={<Loading />}>
-            <Nabvbar />
-            {children}
-            <ToastContainer
-              theme="dark"
-              draggable="mouse"
-            />
+            <Auth>
+              <Nabvbar />
+              {children}
+              <ToastContainer
+                theme="dark"
+                draggable="mouse"
+              />
+            </Auth>
           </Suspense>
         </StoreProvider>
       </body>

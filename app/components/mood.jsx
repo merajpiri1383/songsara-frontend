@@ -34,7 +34,7 @@ export default function Mood() {
                             <FaAngleLeft size={"1rem"} color="gray" />
                         </div>
                     </div>
-                    <div className="p-3 items-center gap-3 moods" onLoad={() => console.log("hell")}>
+                    <div className="p-3 items-center gap-3 moods">
                         {
                             moods && moods.map((mood, index) => {
                                 return (

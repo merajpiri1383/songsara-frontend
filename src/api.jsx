@@ -1,5 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import Store from "./store";
+import { redirectLoginToggle ,changeUser } from "./reducers/user";
 
 const API = axios.create({
     baseURL : "http://127.0.0.1:8000"
@@ -12,14 +14,30 @@ API.interceptors.request.use((config) => {
     return config;
 });
 
+export async function setUser () {
+    await API.get('/user/').then((response) => {
+        Store.dispatch(changeUser({
+            is_login : true , 
+            email : response.data.email , 
+            username : response.data.username , 
+            is_active : response.data.is_active ,
+            is_staff : response.data.is_staff ,
+        }))
+    }).catch();
+}
+
 export async function handle401Error() {
     if (Cookies.get("refresh_token")){
         await API.post('/account/refresh/',{refresh : Cookies.get("refresh_token")}).then((response) => {
             console.log("get access token from refresh token");
             Cookies.set("access_token",response.data["access"]);
             API.defaults.headers.common.Authorization = `Bearer ${response.data["access"]}`;
+            Store.dispatch(redirectLoginToggle(false));
+            console.log("post request")
+            setUser();
         }).catch((error) => {
             Cookies.remove("refresh_token");
+            Store.dispatch(redirectLoginToggle(true));
         } )
     }
 }

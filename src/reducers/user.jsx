@@ -8,6 +8,7 @@ const userSlice = createSlice({
         username : null , 
         is_active : false , 
         is_staff : false ,
+        redirect_login : false 
     },
     reducers : {
         changeUser : (state,actions) => {
@@ -16,6 +17,9 @@ const userSlice = createSlice({
             state.username = actions.payload.username ;
             state.is_active = actions.payload.is_active ;
             state.is_staff = actions.payload.is_staff ;
-        }
+        },
+        redirectLoginToggle : (state,actions) => {
+            state.redirect_login = actions.payload;
+        } 
     }
-});export default userSlice.reducer;export const {changeUser} = userSlice.actions;
+});export default userSlice.reducer;export const {changeUser ,redirectLoginToggle} = userSlice.actions;
