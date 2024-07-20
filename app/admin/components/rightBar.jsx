@@ -12,6 +12,11 @@ export default function RightBar() {
                         <p className="text-white text-center text-lg">افزودن حس حال</p>
                     </div>
                 </Link>
+                <Link href="/admin/genre/">
+                    <div className="w-full my-1 border border-zinc-700 transition p-2 rounded-md hover:bg-zinc-700">
+                        <p className="text-white text-center text-lg">افزودن سبک</p>
+                    </div>
+                </Link>
             </div>
         </Zoom>
     )
