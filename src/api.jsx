@@ -23,7 +23,7 @@ export async function setUser () {
             is_active : response.data.is_active ,
             is_staff : response.data.is_staff ,
         }))
-    }).catch();
+    }).catch((error) => {console.log(error)});
 }
 
 export async function handle401Error() {

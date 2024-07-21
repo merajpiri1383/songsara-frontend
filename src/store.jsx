@@ -4,6 +4,7 @@ import userSlice from "./reducers/user";
 import moodSlice from "./reducers/mood";
 import genreSlice from "./reducers/genre";
 import artistSlice from "./reducers/artist";
+import albumSlice from "./reducers/album";
 
 const Store = configureStore({
     reducer : {
@@ -11,5 +12,6 @@ const Store = configureStore({
         mood : moodSlice,
         genre : genreSlice,
         artist : artistSlice,
+        album : albumSlice,
     }
 });export default Store;
