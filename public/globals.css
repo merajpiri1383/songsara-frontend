@@ -39,3 +39,18 @@
 .z-1000 { 
     z-index: 1000 !important;
 }
+
+input[type=file]::-webkit-file-upload-button {
+    color: white;
+    background-color: #fcd34d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+input[type=file]::-webkit-file-upload-button:hover{
+    background-color: #f59e0b;
+    transform: translateY(-5px);
+    box-shadow: 1px 1px 7px 1px #ea580c;
+}

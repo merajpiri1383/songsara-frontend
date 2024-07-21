@@ -39,6 +39,8 @@ export async function handle401Error() {
             Cookies.remove("refresh_token");
             Store.dispatch(redirectLoginToggle(true));
         } )
+    }else {
+        Store.dispatch(redirectLoginToggle(true));
     }
 }
 
