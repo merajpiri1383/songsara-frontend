@@ -40,7 +40,7 @@ export default function Artists() {
                                             <img
                                                 src={item.image}
                                                 alt={item.name}
-                                                className="h-36 object-cover rounded-md"
+                                                className="h-36 w-full object-cover rounded-md"
                                             />
                                             <p className="text-white absolute bottom-0 w-full text-center">{item.name}</p>
                                         </div>

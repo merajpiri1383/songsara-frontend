@@ -1,51 +1,55 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react";
-import Loading from '../../../components/loading';
-import { Fade } from "react-awesome-reveal";
+import Loading from "../../../../components/loading";
+import { Zoom } from "react-awesome-reveal";
+import API from "../../../../../src/api";
+import { useParams } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { changeToggle } from "../../../../src/reducers/album";
-import API from "../../../../src/api";
-import { toast } from "react-toastify";
+import { changeAlbum } from "../../../../../src/reducers/album";
 
-export default function AddAlbum() {
+export default function Album() {
+
 
     const [showLoading, setShowLoading] = useState(true);
-    const [genres, setGenres] = useState([]);
-    const [artist,setArtist] = useState([]);
-    const data = new FormData();
-    const dispatch = useDispatch();
+    const [album, setAlbum] = useState([]);
     const [moods, setMoods] = useState([]);
+    const [artists, setArtists] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const dispatch = useDispatch();
+    const data = new FormData();
+    const params = useParams();
+
+
     const getData = async () => {
-        await API.get('/artist/').then((response) => {
-            setArtist(response.data);
-        }).catch((error) => error.response && error.response.status === 401 && getData());
-
-        await API.get('/mood/').then((response) => {
-            setMoods(response.data);
-        }).catch((error) => error.response && error.response.status === 401 && getData());
-
-        await API.get("/genre/").then((response) => {
-            setGenres(response.data);
-        }).catch((error) => error.response && error.response.status === 401 && getData());
-    };
-
-    useMemo ( async () => {
+        setShowLoading(true);
+        await API.get(`/album/${params.slug}/`).then((response) => {
+            setAlbum(response.data);
+            setTimeout(() => setShowLoading(false), 300);
+            dispatch(changeAlbum({
+                artist : response.data.artist, 
+                moods : response.data.moods , 
+                genre : response.data.genre ,
+                id : response.data.id ,
+            }))
+        }).catch((error) => {
+            error.response && error.response.status === 401 && getData();
+        });
+        console.log("call use memo")
+        await API.get('/genre/').then((response) => setGenres(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
+        await API.get("/mood/").then((response) => setMoods(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
+        await API.get("/artist/").then((response) => setArtists(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
+    }
+    useMemo(() => {
         getData();
-    } ,[]);
-
-    useEffect(() => {
-        setTimeout(() => setShowLoading(false), 400);
     }, []);
 
     const submitHandeler = async (e) => {
         setShowLoading(true);
         e.preventDefault();
-        await API.post('/album/',data).then((response) => {
-            dispatch(changeToggle());
-            setTimeout(() => setShowLoading(false),400);
+        await API.put(`/album/${params.slug}/`,data).then((response) => {
+            setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
-            error.response && toast.error(Object.values(error.response.data)[0][0]);
             error.response && error.response.status === 401 && submitHandeler();
         })
     };
@@ -56,16 +60,15 @@ export default function AddAlbum() {
                 showLoading && <Loading />
             }
             {
-                !showLoading && <Fade duration={300}>
+                !showLoading && <Zoom duration={300}>
                     <form method="post" onSubmit={submitHandeler}>
                         <div className="my-2">
                             <p className="text-gray-300 text-right my-1">نام</p>
                             <input
-                                placeholder="نام آلبوم را وارد کنید"
+                                placeholder={album.name}
                                 className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                                 focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                                 type="text"
-                                required 
                                 onChange={(e) => data.append("name", e.target.value)}
                             />
                         </div>
@@ -75,7 +78,6 @@ export default function AddAlbum() {
                                 className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                                 focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                                 type="file"
-                                required
                                 onChange={(e) => data.append("image", e.target.files[0])}
                             />
                         </div>
@@ -90,7 +92,9 @@ export default function AddAlbum() {
                                 {
                                     moods.map((mood, index) => {
                                         return (
-                                            <option value={mood.id} key={index}>{mood.name}</option>
+                                            <option 
+                                            value={mood.id} 
+                                            key={index}>{mood.name}</option>
                                         )
                                     })
                                 }
@@ -105,9 +109,12 @@ export default function AddAlbum() {
                                 onChange={(e) => data.append("artist", e.target.value)}
                             >
                                 {
-                                    artist.map((item, index) => {
+                                    artists.map((item, index) => {
                                         return (
-                                            <option value={item.id} key={index}>{item.name}</option>
+                                            <option 
+                                            value={item.id} 
+                                            selected={album.artist.id === item.id && "selected"}
+                                            key={index}>{item.name}</option>
                                         )
                                     })
                                 }
@@ -123,7 +130,10 @@ export default function AddAlbum() {
                                 {
                                     genres.map((genre, index) => {
                                         return (
-                                            <option key={index} value={genre.id}>{genre.name}</option>
+                                            <option
+                                                selected={album.genre.id === genre.id && "selected"}
+                                                key={index}
+                                                value={genre.id}>{genre.name}</option>
                                         )
                                     })
                                 }
@@ -133,7 +143,7 @@ export default function AddAlbum() {
                             type="submit"
                             className="w-full p-1 py-3 text-lg text-white hover:bg-amber-500 bg-amber-300 rounded-md font-semibold"> ذخیره</button>
                     </form>
-                </Fade>
+                </Zoom>
             }
         </>
     )

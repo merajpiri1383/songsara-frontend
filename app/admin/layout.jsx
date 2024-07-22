@@ -6,7 +6,7 @@ export default function AdminLayout({ children }) {
     return (
         <Permission>
             <div className="grid grid-cols-6">
-                <div className="col-span-2 p-2">
+                <div className="col-span-2 p-2 relative">
                     <RightBar />
                 </div>
                 <div className="col-span-4 p-2">
