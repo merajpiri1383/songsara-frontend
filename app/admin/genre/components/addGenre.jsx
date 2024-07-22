@@ -25,7 +25,7 @@ export default function AddGenre() {
             dispatch(changeToggle());
             toast.success("سبک با موفقیت افزوده شد")
         }).catch((error) => {
-            console.log(error);
+            error.response && error.response.status == 401 && submitHandeler();
         })
     };
 

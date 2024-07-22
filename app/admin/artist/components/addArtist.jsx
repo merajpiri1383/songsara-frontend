@@ -24,6 +24,7 @@ export default function AddArtist () {
             setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
             error.response && error.response.data &&  setTimeout(() => setShowLoading(false),400);
+            error.response && error.response.status == 401 && submitHandeler();
             error.response && error.response.data && toast.error(error.response.data[Object.keys(error.response.data)[0]][0]);
         })
     }

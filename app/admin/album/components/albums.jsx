@@ -11,15 +11,18 @@ export default function Albums() {
     const [showLoading, setShowLoading] = useState(true);
     const [albums, setAlbums] = useState([]);
     const albumToggle = useSelector((state) => state.album.toggle );
+    const getData = async () => {
+        await API.get("/album/").then((response) => {
+            setAlbums(response.data);
+            setTimeout(() => setShowLoading(false), 400);
+        }).catch((error) => {
+            error.response && error.response.status === 401 && getData();
+        })
+    };
 
     useEffect(() => {
         setShowLoading(true);
-        (async () => {
-            await API.get("/album/").then((response) => {
-                setAlbums(response.data);
-                setTimeout(() => setShowLoading(false), 400);
-            })
-        })();
+        getData();
     }, [albumToggle]);
 
     return (

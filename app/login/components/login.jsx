@@ -17,10 +17,8 @@ export default function Login() {
     const dispatch = useDispatch();
     const submitHandeler = async (e) => {
         e.preventDefault();
-        console.log(data)
         await API.post("/account/login/",data).then((response) => {
             setToken(response.data["access_token"],response.data["refresh_token"]);
-            console.log(response.data);
             dispatch(changeUser({
                 email : response.data.user["email"],
                 username : response.data.user["username"],

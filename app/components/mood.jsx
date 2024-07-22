@@ -9,15 +9,17 @@ export default function Mood() {
 
     const [moods, setMoods] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
+    const getData = async () => {
+        setShowLoading(true);
+        await API.get("/mood/").then((response) => {
+            setMoods(response.data);
+            setTimeout(() => setShowLoading(false), 400);
+        }).catch((error) => {
+            error.response && error.response.status == 401 && getData();
+        })
+    }
     useEffect(() => {
-        (async () => {
-            await API.get("/mood/").then((response) => {
-                setMoods(response.data);
-                setTimeout(() => setShowLoading(false), 400);
-            }).catch((error) => {
-                console.log(error);
-            })
-        })();
+        getData();
     }, []);
 
     return (
@@ -38,9 +40,9 @@ export default function Mood() {
                         {
                             moods && moods.map((mood, index) => {
                                 return (
-                                    <Zoom key={index} duration={200}>
-                                        <div className="w-44 h-28 mood flex items-center justify-center" 
-                                        style={{backgroundColor : `#${mood.hex_color}`}}>
+                                    <Zoom key={index} duration={300}>
+                                        <div className="w-44 h-32 mood flex items-center justify-center"
+                                            style={{ backgroundColor: `#${mood.hex_color}` }}>
                                             <p className="text-white font-semibold text-lg">{mood.name}</p>
                                         </div>
                                     </Zoom>

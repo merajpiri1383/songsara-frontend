@@ -1,17 +1,32 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { setUser } from "../../src/api";
+import { setUser } from "../../src/api"; 
+import { changeUser } from "../../src/reducers/user";
+import API from "../../src/api";
 
 export default function Auth({ children }) {
     const RedirectLogin = useSelector((state) => state.user.redirect_login );
     const user = useSelector((state) => state.user );
+    const dispatch = useDispatch();
     const router = useRouter();
 
     useEffect(() => {
-        !user.is_login && Cookies.get("access_token") && user. RedirectLogin && router.push("/login");
+        if (RedirectLogin) {
+            Cookies.remove("access_token");
+            Cookies.remove("refresh_token");
+            API.defaults.headers.common.Authorization = null;
+            dispatch(changeUser({
+                is_login : false ,
+                is_staff : false ,
+                username : null , 
+                email : null ,
+                is_active : false ,
+            }));
+            router.push("/login");
+        }
     },[RedirectLogin]);
 
     useEffect(() => {

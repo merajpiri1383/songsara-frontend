@@ -23,7 +23,7 @@ export default function AddMood() {
             setTimeout(() => setShowLoading(false),400); 
         }).catch((error) => {
             error.response && toast.error(Object.values(error.response.data)[0][0]);
-            error.response && setTimeout(() => setShowLoading(false),400); 
+            error.response && setTimeout(() => setShowLoading(false),400);  
         })
     };
 

@@ -12,17 +12,18 @@ export default function Genres() {
     const genreToggle = useSelector((state) => state.genre.toggle);
     const [genres, setGenres] = useState([]);
     const dispatch = useDispatch();
-    useEffect(() => {
-        (async () => {
-            await API.get('/genre/').then((response) => {
-                setGenres(response.data);
-                setTimeout(() => setShowLoading(false), 400);
-            }).catch((error) => {
-                error.response && error.response.status === 400 && toast.error("errror")
-            });
+    const getData = async () => {
+        setShowLoading(true);
+        await API.get('/genre/').then((response) => {
+            setGenres(response.data);
             setTimeout(() => setShowLoading(false), 400);
-        })();
-
+        }).catch((error) => {
+            error.response && error.response.status === 401 && getData();
+        });
+        setTimeout(() => setShowLoading(false), 400);
+    };
+    useEffect(() => {
+        getData();
     }, [genreToggle]);
 
     const deleteHandeler = async (slug) => {
@@ -30,6 +31,8 @@ export default function Genres() {
         await API.delete(`/genre/${slug}/`).then((response) => {
             dispatch(changeToggle());
             setTimeout(() => setShowLoading(false), 400);
+        }).catch((error) => {
+            error.response && error.response.status == 401 && deleteHandeler(slug);
         })
     }
     return (

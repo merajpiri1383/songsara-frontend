@@ -15,20 +15,22 @@ export default function AddAlbum() {
     const data = new FormData();
     const dispatch = useDispatch();
     const [moods, setMoods] = useState([]);
-
-    useMemo ( async () => {
+    const getData = async () => {
         await API.get('/artist/').then((response) => {
             setArtist(response.data);
-        }).catch((error) => console.log(error));
+        }).catch((error) => error.response && error.response.status === 401 && getData());
 
         await API.get('/mood/').then((response) => {
             setMoods(response.data);
-        }).catch((error) => console.log(error));
+        }).catch((error) => error.response && error.response.status === 401 && getData());
 
         await API.get("/genre/").then((response) => {
             setGenres(response.data);
-        }).catch((error) => console.log("error"));
+        }).catch((error) => error.response && error.response.status === 401 && getData());
+    };
 
+    useMemo ( async () => {
+        getData();
     } ,[]);
 
     useEffect(() => {
@@ -43,6 +45,7 @@ export default function AddAlbum() {
             setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
             error.response && console.log(error.response.data);
+            error.response && error.response.status === 401 && submitHandeler();
         })
     };
 

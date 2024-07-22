@@ -9,14 +9,15 @@ export default function Moods() {
 
     const [moods, setMoods] = useState([]);
     const moodToggle = useSelector((state) => state.mood.toggle);
+    const getData = async () => {
+        await API.get("/mood/").then((response) => {
+            setMoods(response.data);
+        }).catch((error) => {
+            error.response && error.response.status == 401 && getData();
+        })
+    };
     useEffect(() => {
-        (async () => {
-            await API.get("/mood/").then((response) => {
-                setMoods(response.data);
-            }).catch((error) => {
-                console.log(error.response.data);
-            })
-        })();
+        getData();
     }, [moodToggle]);
 
     return (
