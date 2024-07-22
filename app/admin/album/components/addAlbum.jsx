@@ -19,41 +19,19 @@ export default function AddAlbum() {
     useMemo ( async () => {
         await API.get('/artist/').then((response) => {
             setArtist(response.data);
-            console.log("get artist ")
         }).catch((error) => console.log(error));
 
         await API.get('/mood/').then((response) => {
             setMoods(response.data);
-            console.log("get moods ")
         }).catch((error) => console.log(error));
 
         await API.get("/genre/").then((response) => {
             setGenres(response.data);
-            console.log("get genres ")
         }).catch((error) => console.log("error"));
 
     } ,[]);
 
     useEffect(() => {
-
-        // (async () => {
-        //     await API.get('/artist/').then((response) => {
-        //         setArtist(response.data);
-        //     }).catch((error) => console.log(error))
-        // })();
-
-        // (async () => {
-        //     await API.get('/mood/').then((response) => {
-        //         setMoods(response.data);
-        //     }).catch((error) => console.log(error))
-        // })();
-
-        // (async () => {
-        //     await API.get("/genre/").then((response) => {
-        //         setGenres(response.data);
-        //         setTimeout(() => setShowLoading(false), 400);
-        //     }).catch((error) => console.log("error"))
-        // })();
         setTimeout(() => setShowLoading(false), 400);
     }, []);
 

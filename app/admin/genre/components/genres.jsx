@@ -45,7 +45,6 @@ export default function Genres() {
                                 return (
                                     <div key={index} className="col-span-1 h-20 text-white bg-zinc-800 rounded-lg p-3 relative">
                                         <h3 className="text-center font-semibold">{genre.name}</h3>
-                                        <p className="overflow-hidden">{genre.text}</p>
                                         <button
                                             type="button"
                                             onClick={() => deleteHandeler(genre.slug)}

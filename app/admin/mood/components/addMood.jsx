@@ -22,7 +22,8 @@ export default function AddMood() {
             dispatch(changeToggle());
             setTimeout(() => setShowLoading(false),400); 
         }).catch((error) => {
-            error.response && toast.error(error.response.data)
+            error.response && toast.error(Object.values(error.response.data)[0][0]);
+            error.response && setTimeout(() => setShowLoading(false),400); 
         })
     };
 
@@ -46,14 +47,14 @@ export default function AddMood() {
                             />
                         </div>
                         <div className="my-2">
-                            <p className="text-gray-300 text-right my-1">تصویر</p>
+                            <p className="text-gray-300 text-right my-1">کد رنگ</p>
                             <input
-                                accept="image/jpg,png"
+                                placeholder="کد رنگ حس حال را وارد کنید"
                                 className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                                 focus:bg-gray-200 focus:text-black text-white transition"
-                                type="file"
+                                type="text"
                                 required
-                                onChange={(e) => formData.append("image",e.target.files[0])}
+                                onChange={(e) => formData.append("hex_color",e.target.value)}
                             />
                         </div>
                         <button

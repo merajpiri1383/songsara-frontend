@@ -38,14 +38,10 @@ export default function Mood() {
                         {
                             moods && moods.map((mood, index) => {
                                 return (
-                                    <Zoom key={index}>
-                                        <div className="w-44 h-36 relative mood">
-                                            <img
-                                                src={mood.image}
-                                                alt={mood.name}
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <p className="text-white flex font-semibold w-full flex justify-center absolute bottom-1">{mood.name}</p>
+                                    <Zoom key={index} duration={200}>
+                                        <div className="w-44 h-28 mood flex items-center justify-center" 
+                                        style={{backgroundColor : `#${mood.hex_color}`}}>
+                                            <p className="text-white font-semibold text-lg">{mood.name}</p>
                                         </div>
                                     </Zoom>
                                 )

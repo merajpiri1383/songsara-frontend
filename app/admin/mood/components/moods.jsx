@@ -12,9 +12,9 @@ export default function Moods() {
     useEffect(() => {
         (async () => {
             await API.get("/mood/").then((response) => {
-                setMoods(response.data)
+                setMoods(response.data);
             }).catch((error) => {
-                console.log(error)
+                console.log(error.response.data);
             })
         })();
     }, [moodToggle]);
@@ -26,13 +26,9 @@ export default function Moods() {
                     return (
                         <Zoom duration={300} key={index}>
                             <Link href={`/admin/mood/${mood.slug}`}>
-                                <div className="col-span-1 relative">
-                                    <img
-                                        src={mood.image}
-                                        alt={mood.name}
-                                        className="h-36 object-cover rounded-lg"
-                                    />
-                                    <p className="text-white absolute bottom-0 w-full text-center font-semibold">{mood.name}</p>
+                                <div className="col-span-1 h-12 flex items-center justify-center rounded-lg" 
+                                style={{backgroundColor : `#${mood.hex_color}`}}>
+                                    <p className="text-white text-center font-semibold">{mood.name}</p>
                                 </div>
                             </Link>
                         </Zoom>
