@@ -8,7 +8,7 @@ import Loading from "../../../../components/loading";
 import {Fade} from "react-awesome-reveal";
 import { FaPlus } from "react-icons/fa6";
 import { CgSoftwareDownload } from "react-icons/cg";
-const RunTrack = lazy(() => import("./runTrack"));
+import RunTrack from "./runTrack";
 
 
 export default function Tracks () {
@@ -27,7 +27,6 @@ export default function Tracks () {
     };
 
     useMemo(() => {
-        console.log("use track memeo")
         getData();
     },[track_toggle]);
 
@@ -47,7 +46,6 @@ export default function Tracks () {
                 <div className="grid grid-cols-1 justify-center items-center p-3 my-6 relative">
                     {
                         tracks[0] && tracks.map((track,index) => {
-                            console.log(track.id === currentTrack.id)
                             return (
                                 <div className={`col-span-1 py-3 border-b border-gray-700 my-1 flex items-center justify-between
                                 hover:text-amber-400 cursor-pointer ${currentTrack.id === track.id ? "text-amber-400" :"text-white"}`}

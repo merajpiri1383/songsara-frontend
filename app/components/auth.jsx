@@ -3,13 +3,13 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { setUser } from "../../src/api"; 
+import { setUser } from "../../src/api";
 import { changeUser } from "../../src/reducers/user";
 import API from "../../src/api";
 
 export default function Auth({ children }) {
-    const RedirectLogin = useSelector((state) => state.user.redirect_login );
-    const user = useSelector((state) => state.user );
+    const RedirectLogin = useSelector((state) => state.user.redirect_login);
+    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -19,19 +19,19 @@ export default function Auth({ children }) {
             Cookies.remove("refresh_token");
             API.defaults.headers.common.Authorization = null;
             dispatch(changeUser({
-                is_login : false ,
-                is_staff : false ,
-                username : null , 
-                email : null ,
-                is_active : false ,
+                is_login: false,
+                is_staff: false,
+                username: null,
+                email: null,
+                is_active: false,
             }));
             router.push("/login");
         }
-    },[RedirectLogin]);
+    }, [RedirectLogin]);
 
     useEffect(() => {
         Cookies.get("access_token") && !user.is_login && setUser();
-    },[user.is_login]);
+    }, [user.is_login]);
     return (
         <>
             {children}
