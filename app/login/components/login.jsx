@@ -34,7 +34,7 @@ export default function Login() {
     }
 
     return (
-        <div className="bg-zinc-900 p-6">
+        <div className="p-6">
             <h1 className="text-white text-center text-2xl font-semibold my-3">ورود به حساب کاربری</h1>
             <div className="grid grid-cols-2">
                 <form className="col-span-1 p-3" onSubmit={submitHandeler}>

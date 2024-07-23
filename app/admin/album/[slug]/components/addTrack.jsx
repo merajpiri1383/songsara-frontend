@@ -2,23 +2,32 @@
 import { useState, useEffect } from "react";
 import Loading from "../../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import API from "../../../../../src/api";
+import { changeToggleTrackAlbum } from "../../../../../src/reducers/toggle";
+import { toast } from "react-toastify";
 
 export default function AddTrack() {
     const [showLoading, setShowLoading] = useState([]);
     const album = useSelector((state) => state.album);
     const data = new FormData();
+    const dispatch = useDispatch();
+
+
     const submitHandeler = async (e) => {
+        setShowLoading(true);
         e.preventDefault();
         data.append("artist",album.artist.id);
         data.append("genre",album.genre.id);
         data.append("album", parseInt(album.id));
         await API.post("/track/",data).then((response) => {
-            console.log(response.data)
+            dispatch(changeToggleTrackAlbum());
+            setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
+            console.log("error");
             error.response && error.response.status === 401 && submitHandeler();
-            error.response && console.log(error.response.data);
+            error.response && toast.error(Object.values(error.response.data)[0][0]);
+            error.response && setTimeout(() => setShowLoading(false),400);
         })
     };
 
@@ -38,7 +47,7 @@ export default function AddTrack() {
                         <div className="my-2">
                             <p className="text-gray-300 text-right my-1">نام</p>
                             <input
-                                placeholder="نام آلبوم را وارد کنید"
+                                placeholder="نام فایل را وارد کنید"
                                 className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                                 focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                                 type="text"

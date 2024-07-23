@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-zinc-900">
+      <body className="bg-zinc-800">
         <StoreProvider>
           <Suspense fallback={<Loading />}>
             <Auth>
