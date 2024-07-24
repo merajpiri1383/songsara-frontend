@@ -27,6 +27,11 @@ export default function RightBar() {
                         <p className="text-white text-center text-lg select-none">افزودن آلبوم</p>
                     </div>
                 </Link>
+                <Link href="/admin/playlist/">
+                    <div className="w-full my-1 border border-zinc-700 transition p-2 rounded-md hover:bg-zinc-700">
+                        <p className="text-white text-center text-lg select-none">افزودن پلی لسیت</p>
+                    </div>
+                </Link>
             </div>
         </Zoom>
     )
