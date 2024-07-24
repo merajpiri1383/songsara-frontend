@@ -1,10 +1,12 @@
-import {lazy} from "react";
+import { lazy } from "react";
 const CreatePlaylist = lazy(() => import("./components/createPlaylist"));
+const List = lazy(() => import("./components/list"));
 
-export default function Page () {
+export default function Page() {
     return (
         <>
-        <CreatePlaylist />
+            <CreatePlaylist />
+            <List />
         </>
     )
 };

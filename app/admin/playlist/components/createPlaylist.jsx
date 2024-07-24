@@ -4,12 +4,15 @@ import { useEffect, useMemo, useState } from "react"
 import Loading from "../../../components/loading";
 import API from "../../../../src/api";
 import { toast } from "react-toastify";
+import { changeTogglePlaylist } from "../../../../src/reducers/toggle";
+import { useDispatch } from "react-redux";
 
 export default function createPlaylist() {
     const [showLoading, setShowLoading] = useState(true);
     const data = new FormData();
     const [genres, setGenres] = useState([]);
     const [moods, setMoods] = useState([]);
+    const dispatch = useDispatch();
 
     const getData = async () => {
         await API.get("/mood/").then((response) => {
@@ -35,6 +38,7 @@ export default function createPlaylist() {
         setShowLoading(true);
         e.preventDefault();
         await API.post('/playlist/', data).then((response) => {
+            dispatch(changeTogglePlaylist());
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
             error.response && error.response.status === 401 && submitHandeler();

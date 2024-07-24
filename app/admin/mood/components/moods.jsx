@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Moods() {
 
     const [moods, setMoods] = useState([]);
-    const moodToggle = useSelector((state) => state.mood.toggle);
+    const moodToggle = useSelector((state) => state.toggle.mood);
     const getData = async () => {
         await API.get("/mood/").then((response) => {
             setMoods(response.data);

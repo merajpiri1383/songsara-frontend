@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function Artists() {
 
     const [artist, setArtist] = useState([]);
-    const artistToggle = useSelector((state) => state.artist.toggle);
+    const artistToggle = useSelector((state) => state.toggle.artist);
     const [showLoading, setShowLoading] = useState(true);
     const getData = async () => {
         await API.get('/artist/').then((response) => {

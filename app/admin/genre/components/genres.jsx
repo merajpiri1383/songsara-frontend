@@ -4,12 +4,11 @@ import API from "../../../../src/api";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
-import { toast } from "react-toastify";
-import { changeToggle } from "../../../../src/reducers/genre";
+import { changeToggleGenre } from "../../../../src/reducers/toggle";
 
 export default function Genres() {
     const [showLoading, setShowLoading] = useState(true);
-    const genreToggle = useSelector((state) => state.genre.toggle);
+    const genreToggle = useSelector((state) => state.toggle.genre);
     const [genres, setGenres] = useState([]);
     const dispatch = useDispatch();
     const getData = async () => {
@@ -29,7 +28,7 @@ export default function Genres() {
     const deleteHandeler = async (slug) => {
         setShowLoading(true);
         await API.delete(`/genre/${slug}/`).then((response) => {
-            dispatch(changeToggle());
+            dispatch(changeToggleGenre());
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
             error.response && error.response.status == 401 && deleteHandeler(slug);

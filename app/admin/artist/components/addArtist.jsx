@@ -3,7 +3,7 @@ import { useState , useEffect } from "react";
 import Loading from "../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
 import API from "../../../../src/api";
-import { changeToggle } from "../../../../src/reducers/artist";
+import { changeToggleArtist } from "../../../../src/reducers/toggle";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -20,7 +20,7 @@ export default function AddArtist () {
         setShowLoading(true);
         e.preventDefault();
         await API.post("/artist/",data).then((response) => {
-            dispatch(changeToggle());
+            dispatch(changeToggleArtist());
             setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
             error.response && error.response.data &&  setTimeout(() => setShowLoading(false),400);

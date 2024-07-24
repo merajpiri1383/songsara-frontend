@@ -4,7 +4,7 @@ import Loading from "../../../components/loading";
 import API from "../../../../src/api";
 import { Zoom } from "react-awesome-reveal";
 import { toast } from "react-toastify";
-import {changeToggle } from "../../../../src/reducers/genre";
+import { changeToggleGenre } from "../../../../src/reducers/toggle";
 import { useDispatch } from "react-redux";
 
 export default function AddGenre() {
@@ -22,7 +22,7 @@ export default function AddGenre() {
         e.preventDefault();
         await API.post('/genre/',data).then((response) => {
             setTimeout(() => setShowLoading(false),400);
-            dispatch(changeToggle());
+            dispatch(changeToggleGenre());
             toast.success("سبک با موفقیت افزوده شد")
         }).catch((error) => {
             error.response && error.response.status == 401 && submitHandeler();

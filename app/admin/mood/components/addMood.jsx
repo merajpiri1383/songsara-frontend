@@ -5,7 +5,7 @@ import Loading from "../../../components/loading";
 import API from "../../../../src/api";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { changeToggle } from "../../../../src/reducers/mood";
+import { changeToggleMood } from "../../../../src/reducers/toggle";
 
 export default function AddMood() {
     const [showLoading, setShowLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function AddMood() {
         setShowLoading(true);
         e.preventDefault();
         await API.post("/mood/",formData).then((response) => {
-            dispatch(changeToggle());
+            dispatch(changeToggleMood());
             setTimeout(() => setShowLoading(false),400); 
         }).catch((error) => {
             error.response && toast.error(Object.values(error.response.data)[0][0]);
