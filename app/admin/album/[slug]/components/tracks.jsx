@@ -6,13 +6,14 @@ import API from "../../../../../src/api";
 import { useParams } from "next/navigation";
 import Loading from "../../../../components/loading";
 import {Fade} from "react-awesome-reveal";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6"; 
 import { CgSoftwareDownload } from "react-icons/cg";
 import RunTrack from "./runTrack";
 
 
 export default function Tracks () {
-    const track_toggle = useSelector((state) => state.toggle.tracks_album);
+    const track_toggle = useSelector((state) => state.track.tracks_album);
+    const track = useSelector((state) => state.track);
     const params = useParams();
     const [tracks ,setTracks] = useState([]);
     const [showLoading,setShowLoading] = useState(true);
@@ -35,6 +36,27 @@ export default function Tracks () {
         tracks && setTimeout(() => setShowLoading(false),400);
         tracks && setCurrentTrack(tracks[0]);
     },[tracks])
+
+    useEffect(() => {
+        if (tracks.indexOf(currentTrack) - 1 < 0){
+            setCurrentTrack(tracks[tracks.length - 1 ])
+        }else{
+            setCurrentTrack(tracks[tracks.indexOf(currentTrack) - 1])
+        }
+    },[track.track_before ])
+
+    useEffect(() => {
+        if (tracks.indexOf(currentTrack) + 1 > tracks.length - 1 ) {
+            setCurrentTrack(tracks[0])
+        }else{
+            setCurrentTrack(tracks[tracks.indexOf(currentTrack) + 1 ]);
+        }
+    },[track.track_next]);
+
+    useEffect(() => {
+        setShowLoading(true);
+        setTimeout(() => setShowLoading(false) , 400);
+    },[currentTrack])
 
     return (
         <>

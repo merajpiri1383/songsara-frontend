@@ -4,7 +4,7 @@ import Loading from "../../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../../../../src/api";
-import { changeToggleTrackAlbum } from "../../../../../src/reducers/toggle";
+import { changeToggleTrackAlbum } from "../../../../../src/reducers/track";
 import { toast } from "react-toastify";
 
 export default function AddTrack() {
