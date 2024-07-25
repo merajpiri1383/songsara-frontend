@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 const UpdatePlaylist = lazy(() => import("./updatePlaylist"));
 const Tracks = lazy(() => import("../../../track/components/tracks"));
+const CreateTrack = lazy(() => import("./createTrack"));
 
 export default function Get() {
 
@@ -35,7 +36,8 @@ export default function Get() {
     return (
         <>
             <UpdatePlaylist playlist={playlist} genres={genres} moods={moods} />
-            <Tracks />
+            <CreateTrack playlist={playlist} />
+            <Tracks tracks={playlist.tracks} />
         </>
     )
 };

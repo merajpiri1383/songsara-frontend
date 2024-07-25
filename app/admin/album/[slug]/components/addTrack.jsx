@@ -4,7 +4,7 @@ import Loading from "../../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../../../../src/api";
-import { changeToggleTrackAlbum } from "../../../../../src/reducers/track";
+import { changeToggleTrack } from "../../../../../src/reducers/track";
 import { toast } from "react-toastify";
 
 export default function AddTrack() {
@@ -21,7 +21,7 @@ export default function AddTrack() {
         data.append("genre",album.genre.id);
         data.append("album", parseInt(album.id));
         await API.post("/track/",data).then((response) => {
-            dispatch(changeToggleTrackAlbum());
+            dispatch(changeToggleTrack());
             setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
             console.log("error");

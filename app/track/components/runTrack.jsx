@@ -39,14 +39,14 @@ export default function RunTrack({ track }) {
         <div className="fixed bg-zinc-900 px-3 py-5 w-full left-0 right-0 bottom-0 grid grid-cols-12">
             <div className="col-span-1 flex items-center justify-between px-1">
                 <HiSpeakerWave size={"1.8rem"} color="white" />
-                <p className="text-white text-xs"> {track.duration} / <span id="audio_timer"></span> </p>
+                <p className="text-white text-xs"> {track && track.duration} / <span id="audio_timer"></span> </p>
             </div>
             <div className="col-span-9 flex items-center p-2 px-4">
                 <div className="bg-gray-400 h-1 hover:h-1.5 w-full relative rounded-lg">
                     <span id="timer_grow" className="bg-amber-400 size-4 rounded-full absolute -bottom-1 left-0"></span>
                 </div>
                 <audio id="audio">
-                    <source src={track.file} />
+                    <source src={track && track.file} />
                 </audio>
             </div>
             <div className="col-span-2 flex items-center justify-between px-5">

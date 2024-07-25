@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const trackSlice = createSlice({
     name: "toggle",
     initialState: {
-        tracks_album: false,
+        toggle: false,
         track_next : false , 
         track_before : false ,
     },
     reducers: {
-        changeToggleTrackAlbum: (state) => {
-            state.tracks_album = !state.tracks_album
+        changeToggleTrack :  (state) => {
+            state.toggle = !state.toggle
         },
         changeToggleTrackNext : (state) => {
             state.track_next = !state.track_next
@@ -18,4 +18,4 @@ const trackSlice = createSlice({
             state.track_before = !state.track_before
         }
     }
-}); export const { changeToggleTrackAlbum ,changeToggleTrackBefore, changeToggleTrackNext } = trackSlice.actions; export default trackSlice.reducer;
+}); export const { changeToggleTrack ,changeToggleTrackBefore, changeToggleTrackNext } = trackSlice.actions; export default trackSlice.reducer;

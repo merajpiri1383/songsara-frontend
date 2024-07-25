@@ -9,7 +9,7 @@ import { CgSoftwareDownload } from "react-icons/cg";
 const RunTrack = lazy(() => import("./runTrack"));
 
 
-export default function Tracks({ tracks = [] }) {
+export default function Tracks({ tracks }) {
     const track = useSelector((state) => state.track);
     const [showLoading, setShowLoading] = useState(true);
     const [currentTrack, setCurrentTrack] = useState({});
@@ -31,10 +31,12 @@ export default function Tracks({ tracks = [] }) {
     }, [track.track_before])
 
     useEffect(() => {
-        if (tracks.indexOf(currentTrack) + 1 > tracks.length - 1) {
-            tracks && setCurrentTrack(tracks[0]);
-        } else {
-            tracks && setCurrentTrack(tracks[tracks.indexOf(currentTrack) + 1]);
+        if (tracks) {
+            if (tracks.indexOf(currentTrack) + 1 > tracks.length - 1) {
+                tracks && setCurrentTrack(tracks[0]);
+            } else {
+                tracks && setCurrentTrack(tracks[tracks.indexOf(currentTrack) + 1]);
+            }
         }
     }, [track.track_next]);
 
@@ -52,20 +54,21 @@ export default function Tracks({ tracks = [] }) {
                 !showLoading && <Fade duration={300}>
                     <div className="grid grid-cols-1 justify-center items-center p-3 my-6 relative">
                         {
-                            tracks[0] && tracks.map((track, index) => {
+                            tracks[0] && tracks.map((item, index) => {
                                 return (
-                                    <div className={`col-span-1 py-3 border-b border-gray-700 my-1 flex items-center justify-between
-                                hover:text-amber-400 cursor-pointer ${currentTrack.id === track.id ? "text-amber-400" : "text-white"}`}
-                                        onClick={() => setCurrentTrack(track)}>
+                                    <div key={index}
+                                        className={`col-span-1 py-3 border-b border-gray-700 my-1 flex items-center justify-between
+                                        hover:text-amber-400 cursor-pointer ${currentTrack && currentTrack.id === item.id ? "text-amber-400" : "text-white"}`}
+                                        onClick={() => setCurrentTrack(item)}>
                                         <div className="grid grid-cols-3 gap-6 items-center">
                                             <FaPlus className="col-span-1" color="white" size={"1.8rem"} />
                                             <CgSoftwareDownload className="col-span-1" color="white" size={"1.8rem"} />
-                                            <p className="col-span-1">{track.duration}</p>
+                                            <p className="col-span-1">{item.duration}</p>
                                         </div>
                                         <div className="flex justify-between items-center gap-9">
                                             <div className="col-span-1">
-                                                <p className="font-semibold text-lg text-left">{track.name}</p>
-                                                <p className="text-gray-500 text-sm text-left">{track.artist.name}</p>
+                                                <p className="font-semibold text-lg text-left">{item.name}</p>
+                                                <p className="text-gray-500 text-sm text-left">{item.artist.name}</p>
                                             </div>
                                             <p className="col-span-1">{index + 1}</p>
                                         </div>
@@ -73,7 +76,9 @@ export default function Tracks({ tracks = [] }) {
                                 )
                             })
                         }
-                        {/* <RunTrack track={currentTrack} /> */}
+                        {
+                            tracks[0] && <RunTrack track={currentTrack} />
+                        }
                     </div>
                 </Fade>
             }
