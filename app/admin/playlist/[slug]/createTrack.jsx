@@ -72,7 +72,6 @@ export default function CreateTrack({playlist}) {
                             className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                             focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                             onChange={(e) => data.append("artist",e.target.value)}
-                            defaultValue={artists && artists[0].id}
                             required>
                                 {
                                     artists[0] && artists.map((artist,index) => {

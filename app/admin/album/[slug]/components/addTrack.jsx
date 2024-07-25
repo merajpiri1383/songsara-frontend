@@ -7,11 +7,10 @@ import API from "../../../../../src/api";
 import { changeToggleTrack } from "../../../../../src/reducers/track";
 import { toast } from "react-toastify";
 
-export default function AddTrack() {
+export default function AddTrack({album}) {
     const [showLoading, setShowLoading] = useState([]);
-    const album = useSelector((state) => state.album);
-    const data = new FormData();
     const dispatch = useDispatch();
+    const data = new FormData();
 
 
     const submitHandeler = async (e) => {

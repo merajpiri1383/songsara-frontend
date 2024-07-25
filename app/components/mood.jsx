@@ -9,17 +9,20 @@ export default function Mood() {
 
     const [moods, setMoods] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
-    const getData = async () => {
-        setShowLoading(true);
-        await API.get("/mood/").then((response) => {
-            setMoods(response.data);
-            setTimeout(() => setShowLoading(false), 400);
-        }).catch((error) => {
-            error.response && error.response.status == 401 && getData();
-        })
-    }
     useEffect(() => {
-        getData();
+        const cancelAPI = new AbortController();
+        (async () => {
+            setShowLoading(true);
+            await API.get("/mood/",{signal : cancelAPI.signal}).then((response) => {
+                setMoods(response.data);
+                setTimeout(() => setShowLoading(false), 400);
+            }).catch((error) => {
+                error.response && error.response.status == 401 && getData();
+            })
+        })();
+        return () => {
+            cancelAPI.abort();
+        }
     }, []);
 
     return (

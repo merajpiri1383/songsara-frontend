@@ -1,11 +1,14 @@
 "use client"
 import { lazy } from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Loading from "../../components/loading";
 import { Fade } from "react-awesome-reveal";
 import { FaPlus } from "react-icons/fa6";
 import { CgSoftwareDownload } from "react-icons/cg";
+import { AiOutlineDelete } from "react-icons/ai";
+import API from "../../../src/api";
+import { changeToggleTrack } from "../../../src/reducers/track";
 const RunTrack = lazy(() => import("./runTrack"));
 
 
@@ -13,6 +16,8 @@ export default function Tracks({ tracks }) {
     const track = useSelector((state) => state.track);
     const [showLoading, setShowLoading] = useState(true);
     const [currentTrack, setCurrentTrack] = useState({});
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
 
     useEffect(() => {
         setShowLoading(true);
@@ -43,7 +48,17 @@ export default function Tracks({ tracks }) {
     useEffect(() => {
         setShowLoading(true);
         setTimeout(() => setShowLoading(false), 400);
-    }, [currentTrack])
+    }, [currentTrack]);
+
+    const deleteHandeler = async (slug) => {
+        setShowLoading(true);
+        await API.delete(`/track/${slug}/`).then((response) => {
+            dispatch(changeToggleTrack());
+        }).catch((error) => {
+            error.response && error.response.status === 401 && deleteHandeler(slug);
+            console.log(error.response.data);
+        }).finally(() => setTimeout(() => setShowLoading(false), 400))
+    };
 
     return (
         <>
@@ -51,8 +66,8 @@ export default function Tracks({ tracks }) {
                 showLoading && <Loading />
             }
             {
-                !showLoading && <Fade duration={300}>
-                    <div className="grid grid-cols-1 justify-center items-center p-3 my-6 relative">
+                !showLoading && tracks && <Fade duration={300}>
+                    <div className="grid grid-cols-1 justify-center items-center p-3 my-12 relative">
                         {
                             tracks[0] && tracks.map((item, index) => {
                                 return (
@@ -61,7 +76,12 @@ export default function Tracks({ tracks }) {
                                         hover:text-amber-400 cursor-pointer ${currentTrack && currentTrack.id === item.id ? "text-amber-400" : "text-white"}`}
                                         onClick={() => setCurrentTrack(item)}>
                                         <div className="grid grid-cols-3 gap-6 items-center">
-                                            <FaPlus className="col-span-1" color="white" size={"1.8rem"} />
+                                            {
+                                                user.is_staff ?
+                                                    <AiOutlineDelete onClick={() => deleteHandeler(item.slug)}
+                                                        className="col-span-1 active:scale-110 transition" color="#dc2626" size={"1.8rem"} /> :
+                                                    <FaPlus className="col-span-1 active:scale-110 transition" color="white" size={"1.8rem"} />
+                                            }
                                             <CgSoftwareDownload className="col-span-1" color="white" size={"1.8rem"} />
                                             <p className="col-span-1">{item.duration}</p>
                                         </div>

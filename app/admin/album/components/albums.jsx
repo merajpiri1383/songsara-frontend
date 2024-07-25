@@ -1,6 +1,6 @@
 "use client"
 import API from "../../../../src/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Loading from "../../../components/loading";
 import { Fade } from "react-awesome-reveal";
 import { useSelector } from "react-redux";
@@ -12,8 +12,8 @@ export default function Albums() {
     const [showLoading, setShowLoading] = useState(true);
     const [albums, setAlbums] = useState([]);
     const albumToggle = useSelector((state) => state.album.toggle);
-    const getData = async () => {
-        await API.get("/album/").then((response) => {
+    const getData = async (signal) => {
+        await API.get("/album/",{signal : signal}).then((response) => {
             setAlbums(response.data);
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
@@ -21,9 +21,10 @@ export default function Albums() {
         })
     };
 
-    useEffect(() => {
-        setShowLoading(true);
-        getData();
+    useMemo(() => {
+        const cancelAPI = new AbortController();
+        getData(cancelAPI.signal);
+        return () => cancelAPI();
     }, [albumToggle]);
 
     return (

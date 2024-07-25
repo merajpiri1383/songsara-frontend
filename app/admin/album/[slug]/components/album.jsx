@@ -1,44 +1,31 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Loading from "../../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
 import API from "../../../../../src/api";
-import { useParams } from "next/navigation";
+import { changeToggle } from "../../../../../src/reducers/album";
 import { useDispatch } from "react-redux";
-import { changeAlbum } from "../../../../../src/reducers/album";
+import { useRouter } from "next/navigation";
 
-export default function Album() {
+export default function Album({album}) {
 
 
     const [showLoading, setShowLoading] = useState(true);
-    const [album, setAlbum] = useState([]);
     const [moods, setMoods] = useState([]);
     const [artists, setArtists] = useState([]);
     const [genres, setGenres] = useState([]);
     const dispatch = useDispatch();
     const data = new FormData();
-    const params = useParams();
+    const router = useRouter();
 
 
     const getData = async () => {
         setShowLoading(true);
-        await API.get(`/album/${params.slug}/`).then((response) => {
-            setAlbum(response.data);
-            setTimeout(() => setShowLoading(false), 300);
-            dispatch(changeAlbum({
-                artist : response.data.artist, 
-                moods : response.data.moods , 
-                genre : response.data.genre ,
-                id : response.data.id ,
-            }))
-        }).catch((error) => {
-            error.response && error.response.status === 401 && getData();
-        });
-        console.log("call use memo")
         await API.get('/genre/').then((response) => setGenres(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
         await API.get("/mood/").then((response) => setMoods(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
         await API.get("/artist/").then((response) => setArtists(response.data)).catch((error) => error.response && error.response.status === 401 && getData());
+        setTimeout(() => setShowLoading(false), 400);
     }
     useMemo(() => {
         getData();
@@ -47,11 +34,16 @@ export default function Album() {
     const submitHandeler = async (e) => {
         setShowLoading(true);
         e.preventDefault();
-        await API.put(`/album/${params.slug}/`,data).then((response) => {
+        await API.put(`/album/${album.slug}/`,data).then((response) => {
+            dispatch(changeToggle());
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
             error.response && error.response.status === 401 && submitHandeler();
         })
+    };
+
+    const deleteHandeler = async (slug) => {
+        await API.delete(`/album/${slug}/`).then((resposne ) => router.push("/admin/album/")).catch((e) => e.response && e.response.status===401 && deleteHandeler(slug))
     };
 
     return (
@@ -142,6 +134,10 @@ export default function Album() {
                         <button
                             type="submit"
                             className="w-full p-1 py-3 text-lg text-white hover:bg-amber-500 bg-amber-300 rounded-md font-semibold"> ذخیره</button>
+                        <button
+                            type="button"
+                            onClick={() => deleteHandeler(album.slug)}
+                            className="w-full p-1 py-3 text-lg my-2 text-white hover:bg-rose-600 bg-red-500 rounded-md font-semibold"> ذخیره</button>
                     </form>
                 </Zoom>
             }

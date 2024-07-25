@@ -16,22 +16,26 @@ export default function AddAlbum() {
     const data = new FormData();
     const dispatch = useDispatch();
     const [moods, setMoods] = useState([]);
-    const getData = async () => {
-        await API.get('/artist/').then((response) => {
+
+    
+    const getData = async (cancelAPI) => {
+        await API.get('/artist/',{signal : cancelAPI.signal}).then((response) => {
             setArtist(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
 
-        await API.get('/mood/').then((response) => {
+        await API.get('/mood/',{signal : cancelAPI.signal}).then((response) => {
             setMoods(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
 
-        await API.get("/genre/").then((response) => {
+        await API.get("/genre/",{signal : cancelAPI.signal}).then((response) => {
             setGenres(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
     };
 
-    useMemo ( async () => {
-        getData();
+    useEffect (() => {
+        const cancelAPI = new AbortController();
+        getData(cancelAPI);
+        return () => cancelAPI.abort();
     } ,[]);
 
     useEffect(() => {
