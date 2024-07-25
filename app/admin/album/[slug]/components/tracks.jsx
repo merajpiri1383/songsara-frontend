@@ -14,7 +14,7 @@ import RunTrack from "./runTrack";
 export default function Tracks () {
     const track_toggle = useSelector((state) => state.track.tracks_album);
     const track = useSelector((state) => state.track);
-    const params = useParams();
+    const params = useParams(); 
     const [tracks ,setTracks] = useState([]);
     const [showLoading,setShowLoading] = useState(true);
     const [currentTrack,setCurrentTrack] = useState({});
