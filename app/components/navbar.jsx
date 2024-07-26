@@ -25,6 +25,7 @@ export default function Nabvbar() {
                     <Image
                         src={Logo}
                         alt="logo"
+                        priority={true}
                     />
                 </Link>
                 {

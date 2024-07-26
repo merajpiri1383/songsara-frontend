@@ -11,7 +11,7 @@ export default function UpdatePlaylist({ playlist, moods, genres }) {
 
     const [showLoading, setShowLoading] = useState(true);
     const data = new FormData();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setTimeout(() => setShowLoading(false), 400);
@@ -22,7 +22,6 @@ export default function UpdatePlaylist({ playlist, moods, genres }) {
         e.preventDefault();
         await API.put(`/playlist/${playlist.slug}/`, data).then((response) => {
             dispatch(changeTogglePlaylist());
-            console.log(response.data)
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
             error.response && error.response.status && submitHandeler();
@@ -80,12 +79,12 @@ export default function UpdatePlaylist({ playlist, moods, genres }) {
                         <select
                             className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
                             focus:bg-gray-200 focus:text-black text-white transition font-semibold"
+                            defaultValue={playlist && playlist.genre && playlist.genre.id}
                             onChange={(e) => data.append("genre", e.target.value)}>
                             {
                                 genres[0] && genres.map((genre, index) => {
                                     return (
                                         <option
-                                            selected={playlist.genre.id === genre.id && "selected"}
                                             key={index}
                                             value={genre.id}>{genre.name}</option>
                                     )

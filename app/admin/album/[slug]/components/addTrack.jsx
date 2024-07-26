@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Loading from "../../../../components/loading";
 import { Zoom } from "react-awesome-reveal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import API from "../../../../../src/api";
 import { changeToggleTrack } from "../../../../../src/reducers/track";
 import { toast } from "react-toastify";
@@ -18,12 +18,11 @@ export default function AddTrack({album}) {
         e.preventDefault();
         data.append("artist",album.artist.id);
         data.append("genre",album.genre.id);
-        data.append("album", parseInt(album.id));
+        data.append("album", parseInt(album.id)); 
         await API.post("/track/",data).then((response) => {
             dispatch(changeToggleTrack());
             setTimeout(() => setShowLoading(false),400);
         }).catch((error) => {
-            console.log("error");
             error.response && error.response.status === 401 && submitHandeler();
             error.response && toast.error(Object.values(error.response.data)[0][0]);
             error.response && setTimeout(() => setShowLoading(false),400);

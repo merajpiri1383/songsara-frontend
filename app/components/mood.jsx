@@ -1,6 +1,6 @@
 "use client"
 import { Zoom } from "react-awesome-reveal";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import API from "../../src/api";
 import { FaAngleLeft } from "react-icons/fa";
 import Loading from "../components/loading";
@@ -9,21 +9,19 @@ export default function Mood() {
 
     const [moods, setMoods] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
-    useEffect(() => {
-        const cancelAPI = new AbortController();
-        (async () => {
-            setShowLoading(true);
-            await API.get("/mood/",{signal : cancelAPI.signal}).then((response) => {
-                setMoods(response.data);
-                setTimeout(() => setShowLoading(false), 400);
-            }).catch((error) => {
-                error.response && error.response.status == 401 && getData();
-            })
-        })();
-        return () => {
-            cancelAPI.abort();
-        }
-    }, []);
+    
+    const getData = async () => {
+        setShowLoading(true);
+        await API.get("/mood/").then((response) => {
+            setMoods(response.data);
+        }).catch((error) => {
+            error.response && error.response.status == 401 && getData();
+        }).finally(() => setTimeout(() => setShowLoading(false), 400));
+    }
+
+    useMemo(() => {
+        getData();
+    },[]);
 
     return (
         <>
