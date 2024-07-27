@@ -80,3 +80,7 @@ input[type=file]::-webkit-file-upload-button:hover{
     transition: 200ms;
 }
 /* end right pannel */
+
+.span-blur{
+    background-color: rgba(128, 128, 128, 0.527);
+}

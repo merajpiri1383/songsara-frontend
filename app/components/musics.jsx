@@ -3,6 +3,7 @@ import Loading from "./loading";
 import API from "../../src/api";
 import { useMemo, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Musics() {
     const [showLoading, setShowLoading] = useState(true);
@@ -17,7 +18,7 @@ export default function Musics() {
         }).finally(() => setTimeout(() => setShowLoading(false), 400));
     };
     useMemo(() => getData(),[])
-    console.log(musics);
+
     return (
         <>
             {
@@ -27,10 +28,10 @@ export default function Musics() {
                 !showLoading && <div>
                     <div className="flex items-center justify-between px-4 my-2">
                         <h1 className="text-white p-2 text-xl font-semibold">تک موسیقی</h1>
-                        <div className="flex justify-between items-center">
+                        <Link href={"/track/"} className="flex justify-between items-center">
                             <p className="text-gray-500"> نمایش همه</p>
                             <FaAngleLeft size={"1rem"} color="gray" />
-                        </div>
+                        </Link>
                     </div>
                     <div className="albums mx-4">
                         {

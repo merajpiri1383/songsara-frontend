@@ -4,10 +4,12 @@ import { useMemo, useState } from "react";
 import Loading from "./loading";
 import API from "../../src/api";
 import { FaAngleLeft } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Albums() {
     const [showLoading, setShowLoading] = useState(true);
     const [albums, setAlbums] = useState([]);
+
     const getData = async () => {
         await API.get("/album/").then((response) => {
             setAlbums(response.data.filter((item, index) => {
@@ -16,6 +18,7 @@ export default function Albums() {
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => error.response && error.response.status === 401 && getData());
     };
+
     useMemo(() => getData(), []);
 
     return (
@@ -27,10 +30,10 @@ export default function Albums() {
                 !showLoading && <div>
                     <div className="flex items-center justify-between px-4 my-2">
                         <h1 className="text-white p-2 text-xl font-semibold">آلبوم ها</h1>
-                        <div className="flex justify-between items-center">
+                        <Link href={"/album"} className="flex justify-between items-center">
                             <p className="text-gray-500"> نمایش بیشتر</p>
                             <FaAngleLeft size={"1rem"} color="gray" />
-                        </div>
+                        </Link>
                     </div>
                     <div className="albums mx-6">
                         {
