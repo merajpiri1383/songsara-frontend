@@ -90,6 +90,7 @@ export default function CreateMusic() {
                             focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                             onChange={(e) => data.append("artist", e.target.value)}
                             required>
+                                <option>هنرمند را انتخاب کنید</option>
                             {
                                 artists[0] && artists.map((artist, index) => {
                                     return (
@@ -106,6 +107,7 @@ export default function CreateMusic() {
                             focus:bg-gray-200 focus:text-black text-white transition font-semibold"
                             onChange={(e) => data.append("genre", e.target.value)}
                             required>
+                                <option>سبک را انتخاب کنید</option>
                             {
                                 genres[0] && genres.map((genre, index) => {
                                     return (

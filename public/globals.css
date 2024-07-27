@@ -65,7 +65,7 @@ input[type=file]::-webkit-file-upload-button:hover{
     gap: 15px;
     overflow-x: scroll;
 }
-.albums .album h3{
+.albums .album h3{ 
     overflow-y: hidden;
 }
 /* end albums  */
