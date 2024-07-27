@@ -29,7 +29,7 @@ export async function setUser () {
 export async function handle401Error() {
     if (Cookies.get("refresh_token")){
         await API.post('/account/refresh/',{refresh : Cookies.get("refresh_token")}).then((response) => {
-            Cookies.set("access_token",response.data["access"]);
+            Cookies.set("access_token",response.data["access"],{sameSite: true});
             API.defaults.headers.common.Authorization = `Bearer ${response.data["access"]}`;
             Store.dispatch(redirectLoginToggle(false));
             setUser();
