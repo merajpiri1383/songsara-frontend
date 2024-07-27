@@ -12,15 +12,17 @@ import { BsMusicNoteList } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa6";
 import { LuMusic4 } from "react-icons/lu";
 import Dropdown from "./dropdown";
+import RightPannel from "./rightPannel";
 
 export default function Nabvbar() {
 
     const user = useSelector((state) => state.user);
-
     return (
-        <div className="bg-zinc-900 grid grid-cols-9 p-3 px-8">
+        <div className="bg-zinc-900 grid grid-cols-9 p-3 px-8 relative">
             <div className="col-span-6 grid grid-cols-9 gap-2 items-center">
-                <RxHamburgerMenu color="white" size={"2.8rem"} className="col-span-1" />
+                <RightPannel>
+                    <RxHamburgerMenu color="white" size={"2.8rem"} className="col-span-1" />
+                </RightPannel>
                 <Link className="col-span-2" href={"/"} >
                     <Image
                         src={Logo}

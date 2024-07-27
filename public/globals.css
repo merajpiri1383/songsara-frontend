@@ -14,7 +14,7 @@
 
 /* moods */
 .moods{
-    width: 100vw !important;
+    width: 98vw !important;
     display: grid;
     grid-template-rows: 1fr;
     overflow-x: scroll;
@@ -69,3 +69,14 @@ input[type=file]::-webkit-file-upload-button:hover{
     overflow-y: hidden;
 }
 /* end albums  */
+
+/* right pannel */
+.show-pannel{
+    transform: translateX(0);
+    transition: 500ms;
+}
+.hide-pannel {
+    transform: translateX(100%);
+    transition: 200ms;
+}
+/* end right pannel */

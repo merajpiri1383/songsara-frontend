@@ -24,15 +24,15 @@ export default function Albums() {
                 showLoading && <Loading />
             }
             {
-                !showLoading && <>
-                   <div className="flex items-center justify-between px-4 my-2">
+                !showLoading && <div>
+                    <div className="flex items-center justify-between px-4 my-2">
                         <h1 className="text-white p-2 text-xl font-semibold">آلبوم ها</h1>
                         <div className="flex justify-between items-center">
                             <p className="text-gray-500"> نمایش بیشتر</p>
                             <FaAngleLeft size={"1rem"} color="gray" />
                         </div>
                     </div>
-                    <div className="albums p-2 mx-4 my-6">
+                    <div className="albums mx-6">
                         {
                             albums.map((album, index) => {
                                 return (
@@ -51,7 +51,7 @@ export default function Albums() {
                             })
                         }
                     </div>
-                </>
+                </div>
             }
         </>
     )

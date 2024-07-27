@@ -1,6 +1,6 @@
 "use client"
 import { Zoom } from "react-awesome-reveal";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import API from "../../src/api";
 import { FaAngleLeft } from "react-icons/fa";
 import Loading from "../components/loading";
@@ -37,7 +37,7 @@ export default function Mood() {
                             <FaAngleLeft size={"1rem"} color="gray" />
                         </div>
                     </div>
-                    <div className="p-3 items-center gap-3 moods">
+                    <div className="p-3 items-center gap-3 moods w-full">
                         {
                             moods && moods.map((mood, index) => {
                                 return (
