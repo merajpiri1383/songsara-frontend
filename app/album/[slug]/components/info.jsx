@@ -9,7 +9,7 @@ export default function Info({ album }) {
 
     return (
         <>
-            <div className="grid grid-cols-3 px-6 gap-6">
+            <div className="grid grid-cols-3 gap-6">
                 <div className="col-span-2 h-80 grid grid-rows-6 gap-0">
                     <div className="row-span-5">
                         <h1 className="text-white text-3xl mb-4 text-left font-bold">{album.name}</h1>

@@ -7,6 +7,7 @@ import Loading from "../../../components/loading";
 import Link from "next/link";
 const Info = lazy(() => import("./info"));
 const Tracks = lazy(() => import("../../../track/components/tracks"));
+const RightSide = lazy(() => import("./rightSide"));
  
 export default function GetAlbum (){
 
@@ -37,7 +38,9 @@ export default function GetAlbum (){
                     <p>{album.name}</p>
                 </div>
                 <div className="grid grid-cols-12 gap-4">
-                    <div className="col-span-4"></div>
+                    <div className="col-span-4 relative p-4">
+                        <RightSide album={album} />
+                    </div>
                     <div className="col-span-8 p-4">
                         <Info album={album} />
                         <Tracks tracks={album.tracks} />
