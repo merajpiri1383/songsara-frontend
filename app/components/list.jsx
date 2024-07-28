@@ -42,7 +42,7 @@ export default function List({ defaultFilter }) {
                         {
                             list[0] && list.map((item, index) => {
                                 return (
-                                    <Link href={"/"} key={index} className="col-span-1 hover:bg-zinc-700 relative">
+                                    <Link href={filter + "/" + item.slug} key={index} className="col-span-1 hover:bg-zinc-700 relative">
                                         <img
                                             src={item.image}
                                             alt={item.name}
