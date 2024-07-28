@@ -5,22 +5,27 @@ import { useSelector } from "react-redux";
 import API from "../../../../src/api";
 import Loading from "../../../components/loading";
 import Link from "next/link";
+import Pagination from "../../../components/pagination";
 
 export default function List() {
     const [showLoading, setShowLoading] = useState();
     const [playlists, setPlaylists] = useState([]);
     const toggle = useSelector((state) => state.toggle.playlist);
-    const getData = async () => {
-        await API.get("/playlist/").then((response) => {
-            setPlaylists(response.data);
-        }).catch((error) => error.response && error.response.status === 401 && getData());
-    };
-    useMemo(() => getData() , [toggle]);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [count,setCount] = useState(0);
 
-    useEffect(() => {
+    const getData = async () => {
         setShowLoading(true);
-        setTimeout(() => setShowLoading(false), 400);
-    }, [toggle]);
+        await API.get(`/playlist/?page=${currentPage}`).then((response) => {
+            setPlaylists(response.data.results);
+            setCount(response.data.count);
+        }).catch((error) => {
+            error.response && error.response.status === 401 && getData()
+        }).finally(() => {
+            setTimeout(() => setShowLoading(false), 400)
+        });
+    };
+    useMemo(() => getData() , [toggle , currentPage]);
 
     return (
         <>
@@ -49,6 +54,7 @@ export default function List() {
                     }
                 </div>
             }
+            <Pagination count={count} setCurrentPage={setCurrentPage} currentPage={currentPage} />
         </>
     )
 };

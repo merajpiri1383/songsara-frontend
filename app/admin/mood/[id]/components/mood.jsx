@@ -15,7 +15,7 @@ export default function Mood() {
     const router = useRouter();
     const getData = async () => {
         await API.get(`/mood/${params.id}/`).then((response) => {
-            setMood(response.data)
+            setMood(response.data.results)
             setTimeout(() => setShowLoading(false), 400);
         }).catch((error) => {
             error.response && error.response.status == 401 && getData();

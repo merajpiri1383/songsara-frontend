@@ -15,7 +15,6 @@ export default function () {
     const params = useParams();
 
     const getData = async () => {
-        console.log("2")
         await API.get(`/album/${params.slug}/`).then((response) => {
             setAlbum(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());

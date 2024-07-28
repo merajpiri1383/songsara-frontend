@@ -12,7 +12,7 @@ export default function Albums() {
 
     const getData = async () => {
         await API.get("/album/").then((response) => {
-            setAlbums(response.data.filter((item, index) => {
+            setAlbums(response.data.results.filter((item, index) => {
                 return index < 16;
             }));
             setTimeout(() => setShowLoading(false), 400);

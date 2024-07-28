@@ -10,7 +10,7 @@ export default function Musics() {
     const [musics, setMusics] = useState([]);
     const getData = async () => {
         await API.get("/track/").then((response) => {
-            setMusics(response.data.filter((item, index) => {
+            setMusics(response.data.results.filter((item, index) => {
                 return index < 14;
             }));
         }).catch((error) => {

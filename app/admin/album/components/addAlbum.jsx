@@ -19,24 +19,20 @@ export default function AddAlbum() {
 
     
     const getData = async (cancelAPI) => {
-        await API.get('/artist/',{signal : cancelAPI.signal}).then((response) => {
+        await API.get('/artist/').then((response) => {
             setArtist(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
 
-        await API.get('/mood/',{signal : cancelAPI.signal}).then((response) => {
+        await API.get('/mood/').then((response) => {
             setMoods(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
 
-        await API.get("/genre/",{signal : cancelAPI.signal}).then((response) => {
+        await API.get("/genre/").then((response) => {
             setGenres(response.data);
         }).catch((error) => error.response && error.response.status === 401 && getData());
     };
 
-    useEffect (() => {
-        const cancelAPI = new AbortController();
-        getData(cancelAPI);
-        return () => cancelAPI.abort();
-    } ,[]);
+    useMemo(() => getData(),[])
 
     useEffect(() => {
         setTimeout(() => setShowLoading(false), 400);
