@@ -47,6 +47,17 @@ export default function AddMood() {
                             />
                         </div>
                         <div className="my-2">
+                            <p className="text-gray-300 text-right my-1">نام انگلیسی</p>
+                            <input
+                                placeholder="نام انگلیسی را وارد کنید"
+                                required
+                                className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
+                                focus:bg-gray-200 focus:text-black text-white transition"
+                                type="text"
+                                onChange={(e) => formData.append("slug", e.target.value)}
+                            />
+                        </div>
+                        <div className="my-2">
                             <p className="text-gray-300 text-right my-1">کد رنگ</p>
                             <input
                                 placeholder="کد رنگ حس حال را وارد کنید"

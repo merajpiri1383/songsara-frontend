@@ -39,17 +39,19 @@ export default function Albums() {
                         {
                             albums.map((album, index) => {
                                 return (
-                                    <div key={index} className="album hover:bg-gray-700 cursor-pointer transition">
-                                        <img
-                                            src={album.image}
-                                            alt={album.name}
-                                            className="h-60 w-56 object-cover"
-                                        />
-                                        <h3 className="text-left text-lg font-semibold text-white px-2 my-1 w-56 h-6">{album.name}</h3>
-                                        <p className="text-amber-400 text-left w-56 px-2 my-1">{album.artist.name}</p>
-                                        <p className="text-gray-200 text-left w-56 px-2 my-1">{album.genre.name}</p>
-                                        <p className="text-gray-400 text-left w-56 px-2 my-1">{album.created_date}</p>
-                                    </div>
+                                    <Link key={index} href={"/album/" + album.slug}>
+                                        <div className="album hover:bg-gray-700 cursor-pointer transition">
+                                            <img
+                                                src={album.image}
+                                                alt={album.name}
+                                                className="h-60 w-56 object-cover"
+                                            />
+                                            <h3 className="text-left text-lg font-semibold text-white px-2 my-1 w-56 h-6">{album.name}</h3>
+                                            <p className="text-amber-400 text-left w-56 px-2 my-1">{album.artist.name}</p>
+                                            <p className="text-gray-200 text-left w-56 px-2 my-1">{album.genre.name}</p>
+                                            <p className="text-gray-400 text-left w-56 px-2 my-1">{album.created_date}</p>
+                                        </div>
+                                    </Link>
                                 )
                             })
                         }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import API from "../../../../../src/api";
 import { Zoom } from "react-awesome-reveal";
 import Loading from "../../../../components/loading";
@@ -15,15 +15,14 @@ export default function Mood() {
     const router = useRouter();
     const getData = async () => {
         await API.get(`/mood/${params.id}/`).then((response) => {
-            setMood(response.data.results)
-            setTimeout(() => setShowLoading(false), 400);
+            setMood(response.data)
         }).catch((error) => {
             error.response && error.response.status == 401 && getData();
-        })
+        }).finally(() => setTimeout(() => setShowLoading(false), 400))
     };
 
 
-    useEffect(() => {
+    useMemo(() => {
         getData();
     }, []);
 
@@ -62,6 +61,16 @@ export default function Mood() {
                                 focus:bg-gray-200 focus:text-black text-white transition"
                                 type="text"
                                 onChange={(e) => formData.append("name", e.target.value)}
+                            />
+                        </div>
+                        <div className="my-2">
+                            <p className="text-gray-300 text-right my-1">نام انگلیسی</p>
+                            <input
+                                placeholder={mood.slug}
+                                className="border border-gray-700 rounded-md bg-zinc-800 w-full p-1 text-lg my-1 py-3 outline-none
+                                focus:bg-gray-200 focus:text-black text-white transition"
+                                type="text"
+                                onChange={(e) => formData.append("slug", e.target.value)}
                             />
                         </div>
                         <div className="my-2">

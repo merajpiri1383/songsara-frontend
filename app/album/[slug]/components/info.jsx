@@ -23,7 +23,7 @@ export default function Info({ album }) {
                             {
                                 album.moods && album.moods.map((mood, index) => {
                                     return (
-                                        <Link href={"/"} key={index} className="mx-2">
+                                        <Link href={"/mood/" + mood.slug} key={index} className="mx-2">
                                             {mood.name}
                                         </Link>
                                     )
