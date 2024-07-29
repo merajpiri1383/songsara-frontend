@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 const Info = lazy(() => import("./info"));
 const Tracks = lazy(() => import("../../../track/components/tracks"));
+const RightSide = lazy(() => import("./rightSide"));
 
 
 export default function GetPlaylist() {
@@ -34,7 +35,7 @@ export default function GetPlaylist() {
                     </div>
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-4 relative p-4">
-                            {/* <RightSide album={album} /> */}
+                            <RightSide playlist={playlist} />
                         </div>
                         <div className="col-span-8 p-4">
                             <Info playlist={playlist} />

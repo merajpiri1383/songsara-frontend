@@ -18,7 +18,6 @@ export default function RightSide({ album }) {
                 })
                 return result;
             }));
-            setTimeout(() => setShowLoading(false), 400);
         }).finally(() => setTimeout(() => setShowLoading(false), 400));
     };
     useMemo(() => getData(), []);
