@@ -4,12 +4,13 @@ import { useMemo, useState } from "react";
 import API from "../../src/api";
 import { FaAngleLeft } from "react-icons/fa";
 import Loading from "../components/loading";
+import Link from "next/link";
 
 export default function Mood() {
 
     const [moods, setMoods] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
-    
+
     const getData = async () => {
         setShowLoading(true);
         await API.get("/mood/").then((response) => {
@@ -21,7 +22,7 @@ export default function Mood() {
 
     useMemo(() => {
         getData();
-    },[]);
+    }, []);
 
     return (
         <>
@@ -42,10 +43,10 @@ export default function Mood() {
                             moods && moods.map((mood, index) => {
                                 return (
                                     <Zoom key={index} duration={300}>
-                                        <div className="w-44 h-32 mood flex items-center justify-center"
+                                        <Link href={"/mood/" + mood.slug} className="w-44 h-32 mood flex items-center justify-center"
                                             style={{ backgroundColor: `#${mood.hex_color}` }}>
                                             <p className="text-white font-semibold text-lg">{mood.name}</p>
-                                        </div>
+                                        </Link>
                                     </Zoom>
                                 )
                             })
