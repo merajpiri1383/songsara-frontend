@@ -84,3 +84,14 @@ input[type=file]::-webkit-file-upload-button:hover{
 .span-blur{
     background-color: rgba(128, 128, 128, 0.527);
 }
+
+/* playlist */
+.playlists{
+    overflow-x: scroll;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-auto-flow: column;
+    gap: 15px;
+    grid-auto-columns: max-content;
+}
+/* end playlist */

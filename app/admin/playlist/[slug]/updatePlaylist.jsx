@@ -14,8 +14,8 @@ export default function UpdatePlaylist({ playlist, moods, genres }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setTimeout(() => setShowLoading(false), 400);
-    }, []);
+        playlist && setTimeout(() => setShowLoading(false), 400);
+    }, [playlist]);
 
     const submitHandeler = async (e) => {
         setShowLoading(true);
